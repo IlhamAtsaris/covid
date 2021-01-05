@@ -1,38 +1,39 @@
 fetch("https://indonesia-covid-19.mathdro.id/api/provinsi/")
-  .then((response) => response.json())
-  .then((response) => {
-    const data = response.data[13];
-    const kasuspositif = data.kasusPosi;
-    const sembuh = data.kasusSemb;
-    const meninggal = data.kasusMeni;
+.then((response)=> response.json())
+.then((response) => {
+   const data = response.data
+    data.map((value)=>{
+      if (value.provinsi=="Banten"){
+      const kasuspositif = value.kasusPosi;
+      const sembuh = value.kasusSemb;
+      const meninggal = value.kasusMeni;
+      const daerah = value.provinsi
 
     document.querySelector(".kasus-positif").innerHTML = kasuspositif;
     document.querySelector(".selesai-sembuh").innerHTML = sembuh;
     document.querySelector(".kasus-meninggal").innerHTML = meninggal;
-  })
-  .catch((error) => {
-    alert(error);
-  });
+    document.querySelector(".provinsi").innerHTML = daerah;
+          }
+      })
+  }).catch((err)=>{
+  alert(err);
+});
 
-fetch("https://api.thevirustracker.com/free-api?countryTotal=ID")
-  .then((response) => response.json())
-  .then((response) => {
-    const data = response.countrydata[0];
-    const total_cases = data.total_cases;
-    const total_sembuh = data.total_recovered;
-    const total_death = data.total_deaths;
-    const new_cases = data.total_new_cases_today;
-    const new_death = data.total_new_deaths_today;
 
-    document.querySelector(".cases").innerHTML = total_cases;
-    document.querySelector(".kasus_baru").innerHTML = new_cases;
-    document.querySelector(".sembuh").innerHTML = total_sembuh;
-    document.querySelector(".meninggal").innerHTML = total_death;
-    document.querySelector(".baru").innerHTML = new_death;
-  })
-  .catch((error) => {
-    alert(error);
-  });
+fetch("https://data.covid19.go.id/public/api/update.json?update")
+    .then((response)=> response.json())
+    .then((response)=>{
+        const data = response.update.penambahan
+        const total_cases = data.jumlah_positif;
+        const total_death = data.jumlah_meninggal;
+        const total_sembuh = data.jumlah_sembuh;
+
+        document.querySelector(".cases").innerHTML = total_cases;
+        document.querySelector(".meninggal").innerHTML = total_death;
+        document.querySelector(".sembuh").innerHTML = total_sembuh;
+
+    })
+
 
 /// Berita
 
